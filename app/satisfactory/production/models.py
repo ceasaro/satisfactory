@@ -25,6 +25,10 @@ class Product(BaseCodeModel):
         return Factory.objects.get(produced_products__product=self)
 
     @property
+    def requires(self):
+        return self.factory.requires
+
+    @property
     def is_base_resource(self):
         return Factory.objects.filter(produced_products__product=self, resources__isnull=True).exists()
 
