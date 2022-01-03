@@ -21,6 +21,10 @@ class Product(BaseCodeModel):
     name = models.CharField(max_length=255)
 
     @property
+    def factory(self):
+        return Factory.objects.get(produced_products__product=self)
+
+    @property
     def is_base_resource(self):
         return Factory.objects.filter(produced_products__product=self, resources__isnull=True).exists()
 
@@ -36,16 +40,13 @@ class Construction(BaseModel):
 
 class Factory(Construction):
 
-    def __str__(self):
-        return f"Factory of '{', '.join([str(p) for p in self.produces])}'"
-
     @property
     def produces(self):
-        return [p.product for p in self.produced_products.all()]
+        return Product.objects.filter(produced_by__factory=self)
 
     @property
     def requires(self):
-        return [r.resource for r in self.resources.all()]
+        return Product.objects.filter(used_by__factory=self)
 
     def add_product(self, product, amount, production_time=timedelta(minutes=1)):
         ProducedProducts.objects.create(product=product, factory=self, amount=amount, production_time=production_time)
@@ -56,9 +57,12 @@ class Factory(Construction):
     def resources(self):
         pass
 
+    def __str__(self):
+        return f"Factory of '{', '.join([str(p) for p in self.produces])}'"
+
 
 class ProducedProducts(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='produced')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='produced_by')
     factory = models.ForeignKey(Factory, on_delete=models.CASCADE, related_name='produced_products')
     amount = models.IntegerField()
     production_time = models.DurationField()
