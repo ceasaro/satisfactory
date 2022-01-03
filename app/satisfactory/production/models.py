@@ -46,6 +46,23 @@ class Product(BaseCodeModel):
     def is_base_resource(self):
         return Factory.objects.filter(produced_products__product=self, resources__isnull=True).exists()
 
+    @classmethod
+    def get_or_create_product(cls, name, code, produced_amount, resources=None):
+        product, created = cls.objects.get_or_create(code=code, defaults={'name': name})
+        if not created:
+            factory = product.factory
+            # delete previous set resources
+            factory.resources.all().delete()
+            # delete previous set produced products
+            factory.produced_products.all().delete()
+        else:
+            factory = Factory.objects.create()
+
+        for resource_code, amount in resources or []:
+            factory.add_resource(resource=Product.objects.get(code=resource_code), amount=amount)
+        factory.add_product(product=product, amount=produced_amount)
+        return product
+
     def __str__(self):
         return f"{self.name} ({self.code})"
 
