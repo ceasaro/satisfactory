@@ -26,7 +26,21 @@ class Product(BaseCodeModel):
 
     @property
     def requires(self):
-        return self.factory.requires
+        requires = set()
+        for product in self.factory.requires:
+            requires.add(product)
+            requires = set.union(requires, product.requires)
+        return requires
+
+    @property
+    def required_base_products(self):
+        base_products = set()
+        for product in self.factory.requires:
+            if product.is_base_resource:
+                base_products.add(product)
+            else:
+                base_products = set.union(base_products, product.required_base_products)
+        return base_products
 
     @property
     def is_base_resource(self):
