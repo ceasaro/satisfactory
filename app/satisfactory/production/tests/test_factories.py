@@ -16,8 +16,8 @@ def test_factory(iron, pipe):
 
 @pytest.mark.django_db
 def test_required_resources(iron, pipe, screw, iron_plate, reinforced_plate, modular_frame):
-    assert list(iron.requires) == []
-    assert list(pipe.requires) == [iron]
-    assert modular_frame.requires == {iron, pipe, screw, iron_plate, reinforced_plate}
+    assert list(iron.resources) == []
+    assert list(pipe.resources) == [iron]
+    assert modular_frame.resources == {iron, pipe, screw, iron_plate, reinforced_plate}
     assert modular_frame.required_base_products == {iron}, "Only iron is a base product for a modular frame"
 

@@ -25,11 +25,11 @@ class Product(BaseCodeModel):
         return Factory.objects.get(produced_products__product=self)
 
     @property
-    def requires(self):
+    def resources(self):
         requires = set()
         for product in self.factory.requires:
             requires.add(product)
-            requires = set.union(requires, product.requires)
+            requires = set.union(requires, product.resources)
         return requires
 
     @property
@@ -63,6 +63,9 @@ class Product(BaseCodeModel):
         factory.add_product(product=product, amount=produced_amount)
         return product
 
+    def get_produced(self):
+        return self.factory.produced_products.get(product=self)
+
     def __str__(self):
         return f"{self.name} ({self.code})"
 
@@ -84,7 +87,7 @@ class Factory(Construction):
         return Product.objects.filter(used_by__factory=self)
 
     def add_product(self, product, amount, production_time=timedelta(minutes=1)):
-        ProducedProducts.objects.create(product=product, factory=self, amount=amount, production_time=production_time)
+        ProducedProduct.objects.create(product=product, factory=self, amount=amount, production_time=production_time)
 
     def add_resource(self, resource, amount, production_time=timedelta(minutes=1)):
         Resource.objects.create(resource=resource, factory=self, amount=amount, process_time=production_time)
@@ -96,15 +99,15 @@ class Factory(Construction):
         return f"Factory of '{', '.join([str(p) for p in self.produces])}'"
 
 
-class ProducedProducts(models.Model):
+class ProducedProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='produced_by')
     factory = models.ForeignKey(Factory, on_delete=models.CASCADE, related_name='produced_products')
-    amount = models.IntegerField()
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
     production_time = models.DurationField()
 
 
 class Resource(models.Model):
     resource = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='used_by')
     factory = models.ForeignKey(Factory, on_delete=models.CASCADE, related_name='resources')
-    amount = models.IntegerField()
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
     process_time = models.DurationField()

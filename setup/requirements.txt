@@ -1,3 +1,4 @@
+anytree==2.8.0
 Django==4.0
 django-extensions==3.1.5
 pytest==6.2.5
