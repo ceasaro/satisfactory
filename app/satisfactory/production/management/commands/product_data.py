@@ -18,13 +18,14 @@ class Command(BaseCommand):
         tree = get_resource_tree(product)
         RenderTree(tree, style=render.ContStyle)
         for pre, _, node in RenderTree(tree):
-            product = node.name.get('product')
+            _product = node.name.get('product')
             amount = node.name.get('amount')
-            print(f"{pre}{product.name} ({amount:.2f})")
-            resource_list.setdefault(product.code, 0)
-            resource_list[product.code] += amount
+            print(f"{pre}{_product.name} ({amount:.2f})")
+            resource_list.setdefault(_product.code, 0)
+            resource_list[_product.code] += amount
 
-        print("\n\nTOTAL:\n")
-        for resource, amount in resource_list.items():
-            print(f"{resource}: {amount:.2f}")
+        print(f"\n\nTOTAL: {product}\n")
+        for product_code, amount in resource_list.items():
+            product = Product.objects.get(code=product_code)
+            print(f"{product.name:<20}: {amount:.2f} (factories: {amount/product.get_produced().amount:.2f})")
         print("\n\n")
