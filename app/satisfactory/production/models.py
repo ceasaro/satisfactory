@@ -61,7 +61,7 @@ class Product(BaseCodeModel):
         for resource_code, amount in resources or []:
             factory.add_resource(resource=Product.objects.get(code=resource_code), amount=amount)
         factory.add_product(product=product, amount=produced_amount)
-        return product
+        return product, created
 
     def get_produced(self):
         return self.factory.produced_products.get(product=self)
