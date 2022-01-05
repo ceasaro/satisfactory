@@ -4,6 +4,7 @@ from django.views.generic import TemplateView, FormView, DeleteView
 
 from satisfactory.production.forms import ProductForm
 from satisfactory.production.models import Product
+from satisfactory.production.product_helper import get_resource_data
 
 
 class ProductsView(TemplateView):
@@ -14,6 +15,25 @@ class ProductsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         return {'products': Product.objects.all(), 'message': self.get_page_message()}
+
+
+class ProductDetailView(ProductsView):
+
+    def __init__(self, *args, **kwargs):
+        self.product = None
+        super().__init__(*args, **kwargs)
+
+    def get(self, request, product_code, **kwargs):
+        self.product = Product.objects.get(code=product_code)
+        return super().get(request, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        product_tree, product_resources = get_resource_data(self.product)
+        context = super().get_context_data(**kwargs)
+        context['product'] = self.product
+        context['product_tree'] = product_tree
+        context['product_resources'] = product_resources
+        return context
 
 
 class ProductDeleteView(DeleteView):
