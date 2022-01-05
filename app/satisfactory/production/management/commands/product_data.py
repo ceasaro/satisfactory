@@ -1,8 +1,8 @@
 from anytree import RenderTree, render
 from django.core.management.base import BaseCommand
 
-from satisfactory.production.models import Product, Resource, ProducedProduct
-from satisfactory.production.product_helper import get_resource_tree
+from satisfactory.production.models import Product
+from satisfactory.production.product_helper import get_resource_data
 
 
 class Command(BaseCommand):
@@ -13,16 +13,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, product_code, **options):
         product = Product.objects.get(code=product_code)
-        resource_list = {}
+        # resource_list = {}
         print(f"\nResource tree: {product}\n")
-        tree = get_resource_tree(product)
+        tree, resource_list = get_resource_data(product)
         RenderTree(tree, style=render.ContStyle)
         for pre, _, node in RenderTree(tree):
             _product = node.name.get('product')
             amount = node.name.get('amount')
             print(f"{pre}{_product.name} ({amount:.2f})")
-            resource_list.setdefault(_product.code, 0)
-            resource_list[_product.code] += amount
 
         print(f"\n\nTOTAL: {product}\n")
         for product_code, amount in resource_list.items():
