@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView, FormView
+from django.urls import reverse
+from django.views.generic import TemplateView, FormView, DeleteView
 
 from satisfactory.production.forms import ProductForm
 from satisfactory.production.models import Product
@@ -13,6 +14,13 @@ class ProductsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         return {'products': Product.objects.all(), 'message': self.get_page_message()}
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+
+    def get_success_url(self):
+        return reverse('production:products')
 
 
 class ProductAddView(FormView):
