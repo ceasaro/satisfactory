@@ -1,8 +1,9 @@
 from django.urls import path
-from django.views.generic import TemplateView
+
+from satisfactory.production.views import ProductsView
 
 app_name = 'production'
 
 urlpatterns = [
-    path('products', TemplateView.as_view(template_name='production/products.html'), name='products'),
+    path('products', ProductsView.as_view(template_name='production/products.html'), name='products'),
 ]
