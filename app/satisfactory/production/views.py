@@ -1,4 +1,3 @@
-from anytree import RenderTree, LevelOrderIter
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import TemplateView, FormView, DeleteView
@@ -48,10 +47,23 @@ class ProductAddView(FormView):
     template_name = 'production/product-add.html'
     form_class = ProductForm
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['products'] = Product.objects.all()
+        return context
+
     def form_valid(self, form):
         data = form.cleaned_data
-        product, created = Product.get_or_create_product(data.get('name'), data.get('code'), data.get('production_amount'))
-        return HttpResponseRedirect(f'add/success?name={product.name}{"&created" if created else ""}')
+        product, created = Product.get_or_create_product(data.get('name'),
+                                                         data.get('code'),
+                                                         data.get('production_amount'),
+                                                         resources=form.resources)
+        return HttpResponseRedirect(f'success?name={product.name}{"&created" if created else ""}')
 
 
 class ProductAddSuccessView(ProductsView):

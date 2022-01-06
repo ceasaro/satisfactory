@@ -3,6 +3,7 @@
 
 {% block js %}
     <script src="{% static 'satisfactory_utils.js' %}"></script>
+    <script src="{% static 'production/js/product-add.js' %}"></script>
 {% endblock %}
 
 {% block subtitle %} - products{% endblock %}
@@ -15,43 +16,77 @@
             <h2>Add new product</h2>
         </div>
     </div>
+    {% for error in form.non_field_errors %}
+        <span id="codeError" class="text-danger">{{ error }}</span>
+    {% endfor %}
+
     <div class="row">
-        <div class="col-auto">
-            {{ form.non_field_errors }}
-            <form action="{% url 'production:add-product' %}" method="post">
-                {% csrf_token %}
-                {# Name input field #}
-                <div class="mb-3">
-                    <label for="id_product_name" class="form-label">{{ form.name.label }}</label>
-                    {% for error in form.name.errors %}
-                        <span id="nameError" class="text-danger">{{ error }}</span>
-                    {% endfor %}
-                    <input class="form-control" id="id_product_name" name="{{ form.name.name }}"
-                           aria-describedby="nameHelp" onchange="setFormInputValue('id_product_code', slugify(getFormInputValue('id_product_name')))">
-                    <div id="nameHelp" class="form-text">{{ form.name.help_text }}</div>
+        <form action="{% url 'production:add-product' %}" method="post" class="row g-3" id="add_product_from"
+              onsubmit="send_add_product_form(document.getElementById('add_product_from'))">
+            <div class="col-4">
+                <div class="row">
+                    {% csrf_token %}
+                    {# Name input field #}
+                    <div class="mb-3 col-12">
+                        <label for="id_product_name" class="form-label">{{ form.name.label }}</label>
+                        {% for error in form.name.errors %}
+                            <span id="nameError" class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                        <input class="form-control" id="id_product_name" name="{{ form.name.name }}"
+                               aria-describedby="nameHelp"
+                               onchange="setFormInputValue('id_product_code', slugify(getFormInputValue('id_product_name')))">
+                        <div id="nameHelp" class="form-text">{{ form.name.help_text }}</div>
+                    </div>
+                    {# Code input field #}
+                    <div class="mb-3 col-12">
+                        <label for="id_product_code" class="form-label">{{ form.code.label }}</label>
+                        {% for error in form.code.errors %}
+                            <span id="codeError" class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                        <input class="form-control" id="id_product_code" name="{{ form.code.name }}"
+                               aria-describedby="codeHelp">
+                        <div id="codeHelp" class="form-text">{{ form.code.help_text }}</div>
+                    </div>
+                    {# production_amount input field #}
+                    <div class="mb-3 col-12">
+                        <label for="id_product_production_amount"
+                               class="form-label">{{ form.production_amount.label }}</label>
+                        {% for error in form.production_amount.errors %}
+                            <span id="productionAmountError" class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                        <input class="form-control" id="id_product_production_amount"
+                               name="{{ form.production_amount.name }}"
+                               aria-describedby="productionAmountHelp">
+                        <div id="productionAmountHelp" class="form-text">{{ form.production_amount.help_text }}</div>
+                    </div>
+                    <input type="submit" value="Save product" class="m-lg-3 col-4">
                 </div>
-                {# Code input field #}
-                <div class="mb-3">
-                    <label for="id_product_code" class="form-label">{{ form.code.label }}</label>
-                    {% for error in form.code.errors %}
-                        <span id="codeError" class="text-danger">{{ error }}</span>
-                    {% endfor %}
-                    <input class="form-control" id="id_product_code" name="{{ form.code.name }}"
-                           aria-describedby="codeHelp">
-                    <div id="codeHelp" class="form-text">{{ form.code.help_text }}</div>
+            </div>
+            <div class="col-4">
+                {#  required resources #}
+                <div class="row">
+                    <div class="mb-3 col-12">
+                        <label for="id_product_resource_1" class="form-label">Resources</label>
+                        <div id="resourceHelp" class="form-text">{{ form.resources.help_text }}</div>
+                    </div>
+                    <div class="mb-3 col-10">
+                        <span>Resource</span>
+                    </div>
+                    <div class="col-2">
+                        <span>Amount</span>
+                    </div>
+                    {% include 'production/product-add-resource-input-include.html' with id="1" %}
+                    {% include 'production/product-add-resource-input-include.html' with id="2" %}
+                    {% include 'production/product-add-resource-input-include.html' with id="3" %}
+                    {% include 'production/product-add-resource-input-include.html' with id="4" %}
+                    {% include 'production/product-add-resource-input-include.html' with id="5" %}
+                    {% include 'production/product-add-resource-input-include.html' with id="6" %}
+                    {% include 'production/product-add-resource-input-include.html' with id="7" %}
+                    {% include 'production/product-add-resource-input-include.html' with id="8" %}
                 </div>
-                {# production_amount input field #}
-                <div class="mb-3">
-                    <label for="id_product_production_amount" class="form-label">{{ form.production_amount.label }}</label>
-                    {% for error in form.production_amount.errors %}
-                        <span id="productionAmountError" class="text-danger">{{ error }}</span>
-                    {% endfor %}
-                    <input class="form-control" id="id_product_production_amount" name="{{ form.production_amount.name }}"
-                           aria-describedby="codeHelp">
-                    <div id="productionAmountHelp" class="form-text">{{ form.production_amount.help_text }}</div>
-                </div>
-                <input type="submit" value="OK">
-            </form>
-        </div>
+            </div>
+            <div class="col-4">-</div>
+        </form>
+
     </div>
 {% endblock content %}

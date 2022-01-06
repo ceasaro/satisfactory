@@ -1,0 +1,14 @@
+    <input type="text" class="product_resource_field" id="id_product_resource_{{ id }}" name="resources" />
+    <div class="mb-3 col-8">
+        <select class="form-select" id="id_product_resource_code_{{ id }}" name="resource_code"
+                onchange="update_resource_field('id_product_resource_{{ id }}', 'id_product_resource_code_{{ id }}', 'id_product_resource_amount_{{ id }}')">
+            <option selected value> -- select a resource --</option>
+            {% for product in products %}
+                <option value="{{ product.code }}">{{ product.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-4">
+        <input class="form-control" id="id_product_resource_amount_{{ id }}" type="number" step="0.1"
+               onchange="update_resource_field('id_product_resource_{{ id }}', 'id_product_resource_code_{{ id }}', 'id_product_resource_amount_{{ id }}')">
+    </div>
