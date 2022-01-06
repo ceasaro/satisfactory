@@ -1,0 +1,22 @@
+{
+  "name": "Satisfactory on Heroku",
+  "description": "Utilities to help play the game Satisfactory.",
+  "image": "heroku/python",
+  "repository": "https://github.com/ceasaro/satisfactory",
+  "keywords": ["python", "django", "satisfactory" ],
+  "addons": [ "heroku-postgresql" ],
+  "env": {
+    "SECRET_KEY": {
+      "description": "The secret key for the Django application.",
+      "generator": "secret"
+    }
+  },
+  "environments": {
+    "test": {
+      "scripts": {
+        "test-setup": "python manage.py collectstatic --noinput",
+        "test": "pytest"
+      }
+    }
+  }
+}
