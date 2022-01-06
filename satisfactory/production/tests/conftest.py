@@ -1,6 +1,6 @@
 import pytest
 
-from satisfactory.production.models import Product, Factory
+from satisfactory.production.models import Product
 
 
 @pytest.fixture
