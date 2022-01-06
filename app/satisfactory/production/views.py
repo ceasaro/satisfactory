@@ -1,3 +1,4 @@
+from anytree import RenderTree, LevelOrderIter
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import TemplateView, FormView, DeleteView
@@ -31,7 +32,7 @@ class ProductDetailView(ProductsView):
         product_tree, product_resources = get_resource_data(self.product)
         context = super().get_context_data(**kwargs)
         context['product'] = self.product
-        context['product_tree'] = product_tree
+        context['product_tree'] = tree_to_html(product_tree)
         context['product_resources'] = product_resources
         return context
 
@@ -59,3 +60,48 @@ class ProductAddSuccessView(ProductsView):
     def get_page_message(self):
         get_data = self.request.GET
         return f"Successfully {'created' if get_data.get('created') else 'updated'} product {get_data.get('name')}"
+
+
+def tree_to_html(tree):
+
+    def _node_to_html(node):
+        node_text = f'{node.name.get("product").name} ({round(node.name.get("amount"), 1)})'
+        if node.is_leaf:
+            return f'<li>{node_text}</li>'
+        else:
+            _html = f'<li><span class="caret caret-down">{node_text}</span>'
+            _html += '<ul class="nested active"'
+            for n in node.children:
+                _html += _node_to_html(n)
+            _html += '</li>'
+            _html += '</ul>'
+            return _html
+
+    html_tree = '<ul id="tree">'
+    html_tree += _node_to_html(tree)
+    html_tree += '</ul>'
+
+    return html_tree
+'''<ul id="tree">
+  <li><span class="caret caret-down">Beverages</span>
+    <ul class="nested active">
+      <li>Water</li>
+      <li>Coffee</li>
+      <li><span class="caret caret-down">Tea</span>
+        <ul class="nested active">
+          <li>Black Tea</li>
+          <li>White Tea</li>
+          <li><span class="caret caret-down">Green Tea</span>
+            <ul class="nested active">
+              <li>Sencha</li>
+              <li>Gyokuro</li>
+              <li>Matcha</li>
+              <li>Pi Lo Chun</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+'''
