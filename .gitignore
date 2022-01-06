@@ -21,3 +21,4 @@ __pycache__/
 .python-version
 test_command.py
 
+/app/satisfactory/db.sqlite3
