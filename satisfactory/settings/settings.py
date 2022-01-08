@@ -25,7 +25,7 @@ SECRET_KEY = '5v-h!*q@+!2xkx*c$=^7pk39yqb)k&+(c@botgt7s%^nn#@i()'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['quiet-crag-27032.herokuapp.com', ]
+ALLOWED_HOSTS = ['satisfactory-utils.herokuapp.com', ]
 
 
 # Application definition
