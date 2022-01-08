@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'satisfactory.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'ghaev',
+        'NAME': 'satisfactory',
     }
 }
 
