@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = '5v-h!*q@+!2xkx*c$=^7pk39yqb)k&+(c@botgt7s%^nn#@i()'
 DEBUG = True
 
 ALLOWED_HOSTS = ['satisfactory-utils.herokuapp.com', ]
-
 
 # Application definition
 
@@ -71,17 +69,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'satisfactory.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'satisfactory',
+        'NAME': 'd5s3uh5vqjmlfh', 'USER': 'gzqrsvwkahbban',
+        'PASSWORD': '1e17807c7195a44eca28be15f6e5f735c29fb12edb1e94f156bc9a69e49f3cb1',
+        'HOST': 'ec2-54-196-65-186.compute-1.amazonaws.com',
+        'PORT': 5432,
+        'CONN_MAX_AGE': 0,
+        'ENGINE': 'django.db.backends.postgresql_psycopg2'
     }
-}
 
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -101,7 +102,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -112,7 +112,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
