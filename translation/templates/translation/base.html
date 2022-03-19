@@ -23,18 +23,8 @@
 
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100" id="menu">
                     <li class="nav-item w-100">
-                        <a href="{% url 'home' %}" class="nav-link px-0 align-middle text-light {% block menu-home %}{% endblock %}">
+                        <a href="{% url 'translation:home' %}" class="nav-link px-0 align-middle text-light {% block menu-home %}{% endblock %}">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
-                        </a>
-                    </li>
-                    <li class="nav-item w-100">
-                        <a href="{% url 'translation:home' %}" class="nav-link px-0 align-middle text-light {% block translation-home %}{% endblock %}">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Translation</span>
-                        </a>
-                    </li>
-                    <li class="nav-item w-100">
-                        <a href="{% url 'satisfactory' %}" class="nav-link px-0 align-middle text-light {% block satisfactory-home %}{% endblock %}">
-                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Satisfactory</span>
                         </a>
                     </li>
                 </ul>

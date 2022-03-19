@@ -18,10 +18,12 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 
 from satisfactory.production import urls
+from translation import urls as translation_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
-    path('satisfactory', TemplateView.as_view(template_name='satisfactory/home.html'), name='home'),
-    path('satisfactory/production/', include(urls, namespace='production'))
+    path('satisfactory', TemplateView.as_view(template_name='satisfactory/home.html'), name='satisfactory'),
+    path('satisfactory/production/', include(urls, namespace='production')),
+    path('translation/', include(translation_urls, namespace='translation')),
 ]

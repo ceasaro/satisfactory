@@ -1,0 +1,29 @@
+{% extends 'translation/base.html' %}
+
+{% block menu-home %}active{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-auto">
+            <div class="text-info">{{ message }}</div>
+        </div>
+    </div>
+    <div class="row">
+        <form action="{% url 'translation:translate' %}" method="post" class="row g-3" id="add_product_from">
+            {% csrf_token %}
+            <div class="col-5">
+                <h2><label for="original-text">Original</label></h2>
+                <textarea id="original-text" class="w-100 vh-100"></textarea>
+            </div>
+            <div class="col-1">
+                <div class="mt-5">
+                    <button type="submit">Translate --></button>
+                </div>
+            </div>
+            <div class="col-5">
+                <h2><label for="translated-text">Translated</label></h2>
+                <textarea id="translated-text" class="w-100 vh-100"></textarea>
+            </div>
+        </form>
+    </div>
+{% endblock %}
