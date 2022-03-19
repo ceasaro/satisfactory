@@ -22,5 +22,6 @@ from satisfactory.production import urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
-    path('production/', include(urls, namespace='production'))
+    path('satisfactory', TemplateView.as_view(template_name='satisfactory/home.html'), name='home'),
+    path('satisfactory/production/', include(urls, namespace='production'))
 ]

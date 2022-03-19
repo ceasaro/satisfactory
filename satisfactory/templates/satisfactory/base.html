@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pour Yas {% block head_subtitle %}{% endblock %}</title>
+    <title>Satisfactory {% block head_subtitle %}{% endblock %}</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -13,7 +13,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 bg-dark text-light">
-            <h1 class="text-center">{% block title %}Pour Yas{% block subtitle %}{% endblock %}{% endblock %}</h1>
+            <h1 class="text-center">{% block title %}Satisfactory{% block subtitle %}{% endblock %}{% endblock %}</h1>
         </div>
     </div>
     <div class="row flex-nowrap">
@@ -26,6 +26,14 @@
                         <a href="{% url 'home' %}" class="nav-link px-0 align-middle text-light {% block menu-home %}{% endblock %}">
                             <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
                         </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'production:products' %}" class="nav-link px-0 align-middle text-light  {% block menu-products %}{% endblock %}">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Products</span></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'production:add-product' %}" class="nav-link px-0 align-middle text-light  {% block menu-add-product %}{% endblock %}">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Add product</span></a>
                     </li>
                 </ul>
 
